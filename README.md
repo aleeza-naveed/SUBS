@@ -17,29 +17,19 @@ Unauthorized use against systems you do not own is **ILLEGAL**. Always obtain ex
 ---
 
 ##  FEATURES
-_________________________________________________________________________________________________________
-| Feature                   | Description                                                               |
-|                           |                                                                           |
-| **Subdomain Discovery**   | ViewDNS.info API integration with DNS pre-check to eliminate dead hosts   |
-|                           |                                                                           |
-| **Asynchronous Scanning** | 15 concurrent scans with async/await for maximum speed                    |
-|                           |                                                                           |
-| **Port Scanning**         | Top 20 TCP ports with banner grabbing (2-second timeout)                  |
-|                           |                                                                           |
-| **Security Headers**      | Checks 8 critical OWASP headers with plain-English explanations           |
-|                           |                                                                           |
-| **SSL/TLS Audit**         | Certificate expiry validation and **true** TLS 1.0 detection              |
-|                           |                                                                           |
-| **CVE Correlation**       | NVD API integration with caching, retry logic, and rate-limit handling    |
-|                           |                                                                           |
-| **CDN Detection**         | Identifies Cloudflare, Akamai, Fastly, CloudFront, Sucuri, Imperva        |
-|                           |                                                                           |
-| **Risk Scoring**          | CVE count × 3 + Missing Headers + Weak TLS (5 pts) + Sensitive Ports (×2) |
-|                           |                                                                           |
-| **Priority Labels**       | **Critical** / **High** / **Medium** / **Low** based on risk score        |
-|                           |                                                                           |
-| **HTML Report**           | Timestamped, self-contained, color-coded dashboard                        |
-|_______________________________________________________________________________________________________|
+| Feature | Description |
+| :--- | :--- |
+| **Subdomain Discovery** | ViewDNS.info API integration with DNS pre-check to eliminate dead hosts |
+| **Asynchronous Scanning** | 15 concurrent scans with async/await for maximum speed |
+|  **Port Scanning** | Top 20 TCP ports with banner grabbing (2-second timeout) |
+| **Security Headers** | Checks 8 critical OWASP headers with plain-English explanations |
+| **SSL/TLS Audit** | Certificate expiry validation and **true** TLS 1.0 detection |
+| **CVE Correlation** | NVD API integration with caching, retry logic, and rate-limit handling |
+| **CDN Detection** | Identifies Cloudflare, Akamai, Fastly, CloudFront, Sucuri, Imperva |
+| **Risk Scoring** | CVE count × 3 + Missing Headers + Weak TLS (5 pts) + Sensitive Ports (×2) |
+| **Priority Labels** | **Critical** / **High** / **Medium** / **Low** based on risk score |
+| **HTML Report** | Timestamped, self-contained, color-coded dashboard |
+
 
 ---
 
@@ -120,33 +110,32 @@ python3 SUBS.py
 
 ---
 The Exact Flow for a Single Subdomain
-> DNS Pre-check
-> HTTP/HTTPS Request → Grabs Server header (8s max).
-> Port Scan → Scans 20 ports, grabs banners (2s max).
-> CVE LookUp→ Extracts Apache/2.4.49 from the banner and queries the NVD API.
-> Store CVEs → Attaches the list to result['cves'].
-> Return the result to the main orchestrator.
+> **DNS Pre-check**
+> **HTTP/HTTPS Request** → Grabs Server header (8s max).
+> **Port Scan** → Scans 20 ports, grabs banners (2s max).
+> **CVE LookUp** → Extracts Apache/2.4.49 from the banner and queries the NVD API.
+> **Store CVEs** → Attaches the list to result['cves'].
+> **Return the result to the main orchestrator**.
 
 
 ---
 
 ##  Risk Scoring
-____________________________________________________________
-|       Factor        | Points                             |
-| **CVE Count**       | × 3 per CVE                        |
-| **Missing Headers** | 1 per missing header               |
-| **Weak TLS 1.0**    | +5 if supported                    |
-| **Sensitive Ports** | 21, 23, 139, 445, 3306, 3389, 5900 |
-|__________________________________________________________|
+
+| Factor | Points |
+| :--- | :--- |
+| **CVE Count** | × 3 per CVE |
+| **Missing Headers** | 1 per missing header |
+| **Weak TLS 1.0** | +5 if supported |
+| **Sensitive Ports** | × 2 per port (21, 23, 139, 445, 3306, 3389, 5900) |
 
 
-____________________________
-| Risk Score | Priority     |
-| 15+        | 🔴 Critical |
-| 8–14       | 🟠 High     |
-| 3–7        | 🟡 Medium   |
-| 0–2        | 🟢 Low      |
-|___________________________|
+| Risk Score | Priority |
+| :--- | :--- |
+| 15+ | 🔴 Critical |
+| 8–14 | 🟠 High |
+| 3–7 | 🟡 Medium |
+| 0–2 | 🟢 Low |
 ---
 
 **Made with 🐍 Python and ☕ Caffeine**
