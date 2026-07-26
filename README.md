@@ -110,12 +110,12 @@ python3 SUBS.py
 
 ---
 The Exact Flow for a Single Subdomain
-> **DNS Pre-check**
-> **HTTP/HTTPS Request** → Grabs Server header (8s max).
-> **Port Scan** → Scans 20 ports, grabs banners (2s max).
-> **CVE LookUp** → Extracts Apache/2.4.49 from the banner and queries the NVD API.
-> **Store CVEs** → Attaches the list to result['cves'].
-> **Return the result to the main orchestrator**.
+1. **DNS Pre-check**
+2. **HTTP/HTTPS Request** → Grabs Server header (8s max).
+3. **Port Scan** → Scans 20 ports, grabs banners (2s max).
+4. **CVE LookUp** → Extracts Apache/2.4.49 from the banner and queries the NVD API.
+5. **Store CVEs** → Attaches the list to result['cves'].
+6. **Return the result to the main orchestrator**.
 
 
 ---
